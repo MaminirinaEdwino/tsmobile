@@ -1,0 +1,10 @@
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+// Déclare que le module 'app' fait partie du projet
+include ':app'

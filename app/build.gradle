@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+def props = new Properties()
+def propFile = rootProject.file('local.properties')
+if (propFile.exists()) {
+props.load(new FileInputStream(propFile))
+}
+
+android {
+	namespace 'com.turbostack.tsmobile'
+	compileSdk 34
+
+	defaultConfig {
+		applicationId 'com.turbostack.tsmobile'
+        minSdk 24 
+        targetSdk 34 // Le niveau API cible
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+}
+
+android {
+    compileOptions {
+        // Cette section doit correspondre à votre installation
+        sourceCompatibility JavaVersion.VERSION_17 // ou 11, 17, etc.
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    signingConfigs {
+        release {
+            storeFile file(props['key.store']) // Chemin vers votre fichier
+            storePassword props['key.alias.password']
+            keyAlias props['key.alias']
+            keyPassword props['key.store.password']
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release // On lie la signature au mode release
+        }
+    }
+}
